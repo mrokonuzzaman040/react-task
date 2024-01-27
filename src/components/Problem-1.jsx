@@ -4,19 +4,28 @@ const Problem1 = () => {
   const [show, setShow] = useState("all");
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
-  console.log(name, status);
-  const [task, setTask] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   const handleClick = (val) => {
     setShow(val);
   };
 
-  const handelSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setTask([...task, { name, status }]);
+    setTasks([...tasks, { name, status }]);
     setName("");
     setStatus("");
   };
+
+  const filteredTasks = tasks
+    .filter((task) => show === "all" || task.status === show)
+    .sort((a, b) => {
+      if (a.status === "active") return -1;
+      if (b.status === "active") return 1;
+      if (a.status === "completed") return -1;
+      if (b.status === "completed") return 1;
+      return 0;
+    });
 
   return (
     <div className="container">
@@ -27,16 +36,24 @@ const Problem1 = () => {
         <div className="col-6 ">
           <form
             className="row gy-2 gx-3 align-items-center mb-4"
-            onSubmit={handelSubmit}
+            onSubmit={handleSubmit}
           >
             <div className="col-auto">
-              <input type="text" className="form-control" placeholder="Name" value={name} onChange={e=>setName(e.target.value)} />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
             <div className="col-auto">
               <input
                 type="text"
                 className="form-control"
                 placeholder="Status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
               />
             </div>
 
@@ -87,7 +104,14 @@ const Problem1 = () => {
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {filteredTasks.map((task, index) => (
+                <tr key={index}>
+                  <td>{task.name}</td>
+                  <td>{task.status}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
