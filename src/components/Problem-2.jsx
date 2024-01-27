@@ -2,6 +2,22 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Problem2 = () => {
+  const [contacts, setContacts] = useState([]);
+
+  const getAllContacts = async () => {
+    const response = await axios.get(
+      "https://contact.mediusware.com/api/contacts/"
+    );
+    setContacts(response.data.results);
+  };
+
+  const getUSContacts = async () => {
+    const response = await axios.get(
+      "https://contact.mediusware.com/api/contacts/us/"
+    );
+    setContacts(response.data.results);
+  };
+
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
