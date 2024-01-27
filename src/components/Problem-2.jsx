@@ -2,22 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Problem2 = () => {
-  const [showModalA, setShowModalA] = useState(false);
-  const [showModalB, setShowModalB] = useState(false);
-  const [contacts, setContacts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [onlyEven, setOnlyEven] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const fetchData = async (page, term, usOnly) => {
-    const res = await axios.get(
-      `https://contact.mediusware.com/api/contacts/?page=${page}&results=10&seed=abc&name=${term}&nat=${
-        usOnly ? "us" : ""
-      }`
-    );
-    setContacts(res.data.results);
-  };
-
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
