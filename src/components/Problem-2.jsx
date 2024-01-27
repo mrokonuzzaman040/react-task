@@ -57,67 +57,91 @@ const Problem2 = () => {
   };
 
   return (
-    <div className="container" onScroll={handleScroll}>
-      <Button
-        className="btn btn-primary"
-        onClick={() => setModalAVisible(true)}
-      >
-        All Contacts
-      </Button>
-      <Button
-        className="btn btn-warning"
-        onClick={() => setModalBVisible(true)}
-      >
-        US Contacts
-      </Button>
-      <Modal visible={modalAVisible} onCancel={() => setModalAVisible(false)}>
-        <Input
-          className="form-control"
-          placeholder="Search contacts"
-          onChange={handleSearchChange}
-        />
-        {contacts.map((contact) => (
-          <div key={contact.id}>
-            <p>{contact.name}</p>
-            <Button
-              className="btn btn-info"
-              onClick={() => {
-                setSelectedContact(contact);
-                setModalCVisible(true);
-              }}
-            >
-              View Details
-            </Button>
-          </div>
-        ))}
-        {loading && <p>Loading...</p>}
-      </Modal>
+    <div className="container">
+      <div className="row justify-content-center mt-5">
+        <h4 className="text-center text-uppercase mb-5">Problem-2</h4>
 
-      <Modal visible={modalBVisible} onCancel={() => setModalBVisible(false)}>
-        {usContacts.map((contact) => (
-          <div key={contact.id}>
-            <p>{contact.name}</p>
-            <Button
-              className="btn btn-info"
-              onClick={() => {
-                setSelectedContact(contact);
-                setModalCVisible(true);
-              }}
-            >
-              View Details
-            </Button>
-          </div>
-        ))}
-        {loading && <p>Loading...</p>}
-      </Modal>
+        <div
+          className="d-flex justify-content-center gap-3"
+          onScroll={handleScroll}
+        >
+          <button
+            className="btn btn-lg btn-outline-primary"
+            type="button"
+            onClick={() => setModalAVisible(true)}
+          >
+            All Contacts
+          </button>
+          <button
+            className="btn btn-lg btn-outline-warning"
+            type="button"
+            onClick={() => setModalBVisible(true)}
+          >
+            US Contacts
+          </button>
+          <Modal
+            className=""
+            visible={modalAVisible}
+            onCancel={() => setModalAVisible(false)}
+          >
+            <Input
+              className="form-control mt-4"
+              placeholder="Search contacts"
+              onChange={handleSearchChange}
+            />
+            {contacts.map((contact) => (
+              <div key={contact.id}>
+                <p>{contact.name}</p>
+                <Button
+                  className="btn btn-info"
+                  onClick={() => {
+                    setSelectedContact(contact);
+                    setModalCVisible(true);
+                  }}
+                >
+                  View Details
+                </Button>
+              </div>
+            ))}
+            {loading && <p>Loading...</p>}
+          </Modal>
 
-      <Modal visible={modalCVisible} onCancel={() => setModalCVisible(false)}>
-        <p>{selectedContact.name}</p>
-        <p>{selectedContact.email}</p>
-        <p>{selectedContact.phone}</p>
-        <p>{selectedContact.address}</p>
-        <p>{selectedContact.country}</p>
-      </Modal>
+          <Modal
+            visible={modalBVisible}
+            onCancel={() => setModalBVisible(false)}
+          >
+            <div className="mt-5">
+              {usContacts.map((contact) => (
+                <div key={contact.id}>
+                  <p>{contact.name}</p>
+                  <Button
+                    className="btn btn-info"
+                    onClick={() => {
+                      setSelectedContact(contact);
+                      setModalCVisible(true);
+                    }}
+                  >
+                    View Details
+                  </Button>
+                </div>
+              ))}
+            </div>
+            {loading && <p>Loading...</p>}
+          </Modal>
+
+          <Modal
+            visible={modalCVisible}
+            onCancel={() => setModalCVisible(false)}
+          >
+            <h4>Contact Details</h4>
+            <p>{selectedContact.name}</p>
+            <p>{selectedContact.email}</p>
+            <p>{selectedContact.phone}</p>
+            <p>{selectedContact.address}</p>
+            <p>{selectedContact.country}</p>
+          </Modal>
+        </div>
+      </div>
     </div>
   );
 };
