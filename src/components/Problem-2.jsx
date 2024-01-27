@@ -1,5 +1,5 @@
 import { Modal, Button, Checkbox, Input } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosPublic from "./hooks/axiosPublic";
 
 const Problem2 = () => {
@@ -25,6 +25,10 @@ const Problem2 = () => {
       console.error("Error fetching US contacts:", error);
     }
   };
+
+  useEffect(() => {
+    fetchUsContacts();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
