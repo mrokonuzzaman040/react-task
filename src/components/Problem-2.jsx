@@ -29,6 +29,7 @@ const Problem2 = () => {
         }
       );
       setUsContacts(response.data.results);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -74,6 +75,7 @@ const Problem2 = () => {
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight
     ) {
       fetchContacts(searchTerm);
+      fetchUsContacts();
     }
   };
 
