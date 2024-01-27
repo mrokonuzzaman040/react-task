@@ -69,7 +69,20 @@ const Problem1 = () => {
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td>Jacob</td>
+                    <td>Active</td>
+                </tr>
+                <tr>
+                    <td>Larry</td>
+                    <td>Active</td>
+                </tr>
+            </tbody>
           </table>
         </div>
       </div>
