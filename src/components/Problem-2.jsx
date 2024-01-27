@@ -9,7 +9,14 @@ const Problem2 = () => {
   const [onlyEven, setOnlyEven] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
- 
+  const fetchData = async (page, term, usOnly) => {
+    const res = await axios.get(
+      `https://contact.mediusware.com/api/contacts/?page=${page}&results=10&seed=abc&name=${term}&nat=${
+        usOnly ? "us" : ""
+      }`
+    );
+    setContacts(res.data.results);
+  };
 
   return (
     <div className="container">
