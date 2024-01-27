@@ -1,6 +1,7 @@
 import { Modal, Button, Checkbox, Input } from "antd";
 import { useEffect, useState } from "react";
 import useAxiosPublic from "./hooks/axiosPublic";
+import axios from "axios";
 
 const Problem2 = () => {
   // ... existing state variables ...
@@ -19,35 +20,51 @@ const Problem2 = () => {
 
   const fetchUsContacts = async () => {
     try {
-      const response = await axiosPublic.get("/api/contacts?country=US");
-      setUsContacts(response.data);
+      const response = await axios.get(
+        "https://contact.mediusware.com/api/country-contacts/United%20States/",
+        {
+          headers: {
+            accept: "application/json",
+            "X-CSRFToken":
+              "O5a0du3ZBfXZ0hxIptlRxkfQVMChL8XrNjqSu63P7oyL4sQ0g6fdPrlEB9dNcHcb",
+          },
+        }
+      );
+      setUsContacts(response.data.results);
     } catch (error) {
-      console.error("Error fetching US contacts:", error);
+      console.error(error);
+    }
+  };
+
+  const fetchContacts = async (searchTerm) => {
+    try {
+      const response = await axios.get(
+        `https://contact.mediusware.com/api/contacts/?search=${encodeURIComponent(
+          searchTerm
+        )}`,
+        {
+          headers: {
+            accept: "application/json",
+            "X-CSRFToken":
+              "O5a0du3ZBfXZ0hxIptlRxkfQVMChL8XrNjqSu63P7oyL4sQ0g6fdPrlEB9dNcHcb",
+          },
+        }
+      );
+
+      setContacts(response.data.results);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
     fetchUsContacts();
+    fetchContacts(searchTerm);
   }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
     fetchContacts(e.target.value);
-  };
-
-  const fetchContacts = async (searchTerm = "") => {
-    setLoading(true);
-    try {
-      const response = await axiosPublic.get(
-        `/api/contacts?search=${searchTerm}&page=${currentPage}`
-      );
-      setContacts((prevContacts) => [...prevContacts, ...response.data]);
-      setCurrentPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error("Error fetching contacts:", error);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleScroll = (e) => {
@@ -91,7 +108,7 @@ const Problem2 = () => {
             />
             {contacts.map((contact) => (
               <div key={contact.id}>
-                <p>{contact.name}</p>
+                <p>{contact.phone}</p>
                 <Button
                   className="btn btn-info"
                   onClick={() => {
@@ -113,7 +130,7 @@ const Problem2 = () => {
             <div className="mt-5">
               {usContacts.map((contact) => (
                 <div key={contact.id}>
-                  <p>{contact.name}</p>
+                  <p>{contact.phone}</p>
                   <Button
                     className="btn btn-info"
                     onClick={() => {
@@ -134,11 +151,9 @@ const Problem2 = () => {
             onCancel={() => setModalCVisible(false)}
           >
             <h4>Contact Details</h4>
-            <p>{selectedContact.name}</p>
-            <p>{selectedContact.email}</p>
-            <p>{selectedContact.phone}</p>
-            <p>{selectedContact.address}</p>
-            <p>{selectedContact.country}</p>
+            <p>Id: {selectedContact.id}</p>
+            <p>Phone: {selectedContact.phone}</p>
+            <p>Country: {selectedContact?.country?.name}</p>
           </Modal>
         </div>
       </div>
