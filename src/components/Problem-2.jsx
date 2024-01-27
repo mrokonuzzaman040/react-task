@@ -4,8 +4,6 @@ import useAxiosPublic from "./hooks/axiosPublic";
 import axios from "axios";
 
 const Problem2 = () => {
-  // ... existing state variables ...
-
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,6 +35,7 @@ const Problem2 = () => {
   };
 
   const fetchContacts = async (searchTerm) => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `https://contact.mediusware.com/api/contacts/?search=${encodeURIComponent(
@@ -54,6 +53,8 @@ const Problem2 = () => {
       setContacts(response.data.results);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,7 +69,10 @@ const Problem2 = () => {
   };
 
   const handleScroll = (e) => {
-    if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+    if (
+      !loading &&
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight
+    ) {
       fetchContacts(searchTerm);
     }
   };
@@ -128,8 +132,9 @@ const Problem2 = () => {
             onCancel={() => setModalBVisible(false)}
           >
             <div className="mt-5">
-              {usContacts.map((contact) => (
-                <div key={contact.id}>
+              {usContacts.map((contact, index) => (
+                <div className="row justify-content-center" key={contact.id}>
+                  <p> No: {index + 1}</p>
                   <p>{contact.phone}</p>
                   <Button
                     className="btn btn-info"
@@ -150,7 +155,7 @@ const Problem2 = () => {
             visible={modalCVisible}
             onCancel={() => setModalCVisible(false)}
           >
-            <h4>Contact Details</h4>
+            <h4 className="text-center mb-3">Contact Details</h4>
             <p>Id: {selectedContact.id}</p>
             <p>Phone: {selectedContact.phone}</p>
             <p>Country: {selectedContact?.country?.name}</p>
