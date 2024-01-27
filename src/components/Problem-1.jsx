@@ -2,19 +2,35 @@ import React, { useState } from "react";
 
 const Problem1 = () => {
   const [show, setShow] = useState("all");
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+  console.log(name, status);
+  const [task, setTask] = useState([]);
 
   const handleClick = (val) => {
     setShow(val);
+  };
+
+  const handelSubmit = (e) => {
+    e.preventDefault();
+    setTask([...task, { name, status }]);
+    setName("");
+    setStatus("");
   };
 
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
         <h4 className="text-center text-uppercase mb-5">Problem-1</h4>
+
+        {/* Form Section  */}
         <div className="col-6 ">
-          <form className="row gy-2 gx-3 align-items-center mb-4">
+          <form
+            className="row gy-2 gx-3 align-items-center mb-4"
+            onSubmit={handelSubmit}
+          >
             <div className="col-auto">
-              <input type="text" className="form-control" placeholder="Name" />
+              <input type="text" className="form-control" placeholder="Name" value={name} onChange={e=>setName(e.target.value)} />
             </div>
             <div className="col-auto">
               <input
@@ -31,6 +47,8 @@ const Problem1 = () => {
             </div>
           </form>
         </div>
+
+        {/* Table Section */}
         <div className="col-8">
           <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li className="nav-item">
@@ -69,20 +87,7 @@ const Problem1 = () => {
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Mark</td>
-                    <td>Completed</td>
-                </tr>
-                <tr>
-                    <td>Jacob</td>
-                    <td>Active</td>
-                </tr>
-                <tr>
-                    <td>Larry</td>
-                    <td>Active</td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>
